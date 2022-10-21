@@ -1,0 +1,49 @@
+<div class="h-full w-full flex flex-col justify-center items-center">
+  <mat-card>
+    <ng-container *ngIf="!showFilter">
+      <mat-card-header>
+        <span *ngIf="!(allFilterSelected$ | async)">{{ appliedFilterCount$ | async }}</span>
+        <div (click)="showFilter = true;">
+          <img src="/assets/svgs/filter_list.svg" />
+          Filter
+        </div>
+      </mat-card-header>
+      <div *ngIf="hiddenLabelCount$ | async" class="card-showall">
+        <img src="/assets/svgs/info_outline.svg" />
+        {{ hiddenLabelCount$ | async }} item hidden by filters.
+        <a (click)="showAll()">Show all</a>
+      </div>
+      <mat-card-content>
+        <app-item *ngFor="let label of filteredLabels$ | async; let i = index;" [label]="label" (emitDelete)="onDelete(i)"></app-item>
+      </mat-card-content>
+    </ng-container>
+    <ng-container *ngIf="showFilter">
+      <mat-card-header class="filters" (click)="showFilter = false;">
+        <img src="/assets/svgs/arrow_back.svg" />
+        Filter
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <div mat-subheader>Severity</div>
+          <mat-list-item *ngFor="let severity of severityFilters">
+            <mat-checkbox
+              [(ngModel)]="severity.checked"          
+              (ngModelChange)="applyFilters()">
+              {{ severity.severity }}
+            </mat-checkbox>
+          </mat-list-item>
+         </mat-list>
+        <mat-list>
+          <div mat-subheader>Label</div>
+          <mat-list-item *ngFor="let label of labelFilters">
+            <mat-checkbox
+              [(ngModel)]="label.checked"          
+              (ngModelChange)="applyFilters()">
+              {{ label.name }}
+            </mat-checkbox>
+          </mat-list-item>
+         </mat-list>
+      </mat-card-content>
+    </ng-container>
+  </mat-card>
+</div>

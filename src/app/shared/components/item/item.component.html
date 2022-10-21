@@ -1,0 +1,20 @@
+<div class="item-row flex items-center">
+  <div class="dot" [ngStyle]="{'background-color': label.color}"></div>
+  <div class="name">{{ label.name }}</div>
+  <div class="severity flex">
+    <img src="/assets/svgs/warning.svg" />
+    {{ label.severity }}
+  </div>
+  <div class="more">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <img src="/assets/svgs/more_vert.svg" />
+      <!-- <mat-icon>more_vert</mat-icon> -->
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="emitDelete.emit()">
+        <mat-icon>delete</mat-icon>
+        <span>Delete</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>
